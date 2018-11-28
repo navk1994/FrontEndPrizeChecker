@@ -11,7 +11,7 @@ class Page3b extends Component {
   render() {
     return (
         <div>
-        <h2>Home</h2>
+       <p>{this.props.message}.</p>
       </div>
     );
   }
