@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import ReactDOM from 'react-dom';
+
 import Page1 from './Page1';
 import Page2 from './Page2';
 import Page3a from './Page3a';
@@ -9,29 +11,42 @@ import Page3b from './Page3b';
 import axios from 'axios';
 
 class App extends Component {
-
-  state = 
+  constructor(props)
   {
-    accountNumber: "Jones"
+    super(props);
+
+    this.state = 
+    {
+      accountNumber: "Jones"
+    }
   }
 
-  createAccount = () => 
+
+ 
+
+  createAccount = (event) => 
   {
+    event.preventDefault();
     var account = 
     {
       firstName: document.getElementById('txtFName').value,
       lastName: document.getElementById('txtLName').value
     };
 
-    axios.post("http://localhost:8083/accounts/addAccount", account)
+   
+    console.log(account);
+    axios.post('http://localhost:8081/accounts/addAccount',{account})
     .then((response) => {
+      console.log(response.data);
        console.log(response.data.accountNumber);
        this.setState({
         accountNumber: response.data.accountNumber
+
       });
-     
+      ReactDOM.render(<Page2 account={this.state.accountNumber} />, document.getElementById('page2'));
      
 });
+
   }
 
 
@@ -73,7 +88,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" id="page2">
        
    <h1>Account Creation</h1>
 <br/>
